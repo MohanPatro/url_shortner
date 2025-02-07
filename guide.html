@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>URL Shortener API Guide</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 20px;
+      text-align: center;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      max-width: 800px;
+      margin: 30px auto;
+    }
+    h1 {
+      color: #4CAF50;
+    }
+    .token {
+      background: #eee;
+      padding: 10px;
+      border-radius: 5px;
+      word-break: break-word;
+      font-size: 14px;
+      margin: 15px 0;
+    }
+    .note {
+      color: #555;
+      font-size: 14px;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .instructions {
+      display: none;
+      text-align: left;
+      margin-top: 20px;
+    }
+    code {
+      background: #eee;
+      padding: 4px 8px;
+      border-radius: 4px;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 id="welcome-message">🚀 Welcome to the URL Shortener API Guide</h1>
+    <p>Your Google Login was <strong>successful</strong>.</p>
+    <p>Here is your JWT Token:</p>
+    <div class="token" id="token-display">Loading token...</div>
+    <p class="note">⚠️ Copy this token and use it as a Bearer token in Postman for accessing protected APIs.</p>
+
+    <button onclick="toggleInstructions()">📋 How to Test APIs</button>
+
+    <div class="instructions" id="instructions">
+      <h2>📌 API Testing Instructions</h2>
+      <p>Use the token provided above for accessing the following APIs:</p>
+
+      <h3>1️⃣ Shorten URL</h3>
+      <code>POST /shorten</code><br>
+      <strong>Headers:</strong> <code>Authorization: Bearer &lt;Your_JWT_Token&gt;</code><br>
+      <strong>Body:</strong> 
+      <code>{ "longUrl": "https://example.com", "customAlias": "myalias", "topic": "Tech" }</code><br><br>
+
+      <h3>2️⃣ Redirect to Shortened URL</h3>
+      <code>GET /shorten/:alias</code><br>
+      <strong>Note:</strong> Replace <code>:alias</code> with the alias of the shortened URL you want to redirect to.<br><br>
+
+      <h3>3️⃣ Get Analytics for Shortened URL</h3>
+      <code>GET /analytics/:alias</code><br>
+      <strong>Headers:</strong> <code>Authorization: Bearer &lt;Your_JWT_Token&gt;</code><br><br>
+
+      <h3>4️⃣ Get Topic Analytics</h3>
+      <code>GET /analytics/topic/:topic</code><br>
+      <strong>Headers:</strong> <code>Authorization: Bearer &lt;Your_JWT_Token&gt;</code><br><br>
+
+      <h3>5️⃣ Get Overall User Analytics</h3>
+      <code>GET /analytic/user/overall</code><br>
+      <strong>Headers:</strong> <code>Authorization: Bearer &lt;Your_JWT_Token&gt;</code>
+    </div>
+  </div>
+
+  <script>
+    // Extract query parameters from the URL
+    function getQueryParams() {
+      const params = new URLSearchParams(window.location.search);
+      return {
+        token: params.get('token'),
+        name: params.get('name')
+      };
+    }
+
+    // Display token and welcome message
+    const { token, name } = getQueryParams();
+    if (token) {
+      document.getElementById('token-display').textContent = token;
+    } else {
+      document.getElementById('token-display').textContent = 'Token not found!';
+    }
+
+    if (name) {
+      document.getElementById('welcome-message').innerHTML = `🚀 Welcome, ${name}!`;
+    }
+
+    // Toggle instructions visibility
+    function toggleInstructions() {
+      const instructions = document.getElementById('instructions');
+      instructions.style.display = instructions.style.display === 'none' ? 'block' : 'none';
+    }
+  </script>
+</body>
+</html>

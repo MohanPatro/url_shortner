@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  app:
+    build: .
+    container_name: my_node_app          # Custom container name for the Node.js app
+    ports:
+      - "3000:3000"                      # Expose port 3000 for your Node app
+      - "6379:6379"                      # Expose port 6379 for Redis
+    env_file:
+      - .env                             # Load environment variables from the .env file
+    depends_on:
+      - mongo                            # Ensure MongoDB starts before the app
+    networks:
+      - app-network
+
+  mongo:
+    image: mongo:latest                  # Use the latest MongoDB image
+    container_name: my_mongo_db         # Custom container name for MongoDB
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db            # Persist data in a volume
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge                       # Use the bridge network driver
+
+volumes:
+  mongodb_data:                          # Volume for persisting MongoDB data
