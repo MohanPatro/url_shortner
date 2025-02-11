@@ -40,7 +40,7 @@ Docker
 
 **Clone the repository:**
 
-git clone -b master (https://github.com/MohanPatro/url-shortner.git)
+git clone -b master (https://github.com/MohanPatro/url_shortner.git)
 
 
 cd url-shortener
